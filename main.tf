@@ -10,6 +10,7 @@ terraform {
 
 provider "azurerm" {
   features {}
+  subscription_id = "REPLACE_WITH_YOUR_SUBSCRIPTION_ID"
 }
 
 # Local variables
@@ -18,11 +19,8 @@ locals {
   location            = "East US"
   prefix              = "manojweb"
   vm_size             = "Standard_B1s"
-  admin_username      = "azureuser"
-  # IMPORTANT: Replace this with your own SSH public key
-  # Generate with: ssh-keygen -t rsa -b 4096
-  # Then get the key: cat ~/.ssh/id_rsa.pub
-  ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC... REPLACE_WITH_YOUR_SSH_PUBLIC_KEY"
+  admin_username      = "manoj_azureuser"
+  admin_password      = "P@ssw0rd1234!"
 }
 
 # Create Resource Group
@@ -107,10 +105,8 @@ resource "azurerm_linux_virtual_machine" "main" {
     azurerm_network_interface.main.id,
   ]
 
-  admin_ssh_key {
-    username   = local.admin_username
-    public_key = local.ssh_public_key
-  }
+  disable_password_authentication = false
+  admin_password                  = local.admin_password
 
   os_disk {
     caching              = "ReadWrite"

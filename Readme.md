@@ -3,17 +3,20 @@
 ## Prerequisites
 
 1. Install Azure CLI and login:
+
 ```bash
 az login
 ```
 
-2. Generate SSH key (if you don't have one):
+2. Get your subscription ID:
+
 ```bash
-ssh-keygen -t rsa -b 4096
-cat ~/.ssh/id_rsa.pub
+az account show --query id -o tsv
 ```
 
-3. Copy the SSH public key and paste it in `main.tf` at line 25
+3. Update `main.tf`:
+   - Line 13: Add your subscription ID
+   - Line 23: Change the admin password (optional)
 
 ## Commands to Run
 
